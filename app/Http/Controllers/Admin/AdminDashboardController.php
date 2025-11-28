@@ -12,6 +12,6 @@ class AdminDashboardController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard')->layout('layouts.app');
     }
 }

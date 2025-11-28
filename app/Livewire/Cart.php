@@ -2,34 +2,58 @@
 
 namespace App\Livewire;
 
-use App\Models\Product;
 use Livewire\Component;
+use App\Models\Product;
 
-class Cart extends Component
-{
+class Cart extends Component {
     public $cart = [];
+
+    protected $listeners = ['addToCart' => 'add', 'removeFromCart' => 'remove'];
 
     public function mount() {
         $this->cart = session()->get('cart', []);
     }
 
-    public function add($productId)
-    {
-        $product = Product::find($productId);
+    public function add($productId) {
+        $product = Product::findOrFail($productId);
 
-        if (!$product) return;
+        $cart = session()->get('cart', []);
 
-        $this->cart[$productId] = [
-            'name' => $product->name,
-            'price' => $product->price,
-            'qty' => ($this->cart[$productId]['qty'] ?? 0) + 1,
-        ];
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity']++;
+        } else {
+            $cart[$productId] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'image' => $product->image,
+                'quantity' => 1,
+            ];
+        }
 
-        session()->put('cart', $this->cart);
+        session()->put('cart', $cart);
+
+        $this->cart = $cart;
+
+        // atualiza o header
+        $this->emit('cartUpdated');
     }
 
-    public function render()
-    {
+    public function remove($productId) {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
+        }
+
+        session()->put('cart', $cart);
+
+        $this->cart = $cart;
+
+        // atualiza o header
+        $this->emit('cartUpdated');
+    }
+
+    public function render() {
         return view('livewire.cart');
     }
 }

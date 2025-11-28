@@ -57,7 +57,7 @@
 
         <!-- Products Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            @foreach ($products as $product)
+            @forelse ($products as $product)
             <div class="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
 
                 <!-- Product Image -->
@@ -127,8 +127,8 @@
                         </div>
                     </div>
 
-                    <!-- Add to Cart Button -->
-                    <button class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <!-- Add to Cart Button no Card - MUDE ISTO -->
+                    <button onclick="openModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ $product->image ? asset('storage/' . $product->image) : '' }}', '{{ addslashes($product->description) }}', {{ $product->price }})" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
@@ -136,7 +136,9 @@
                     </button>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <p class="col-span-full text-center text-gray-500">Nenhum produto disponível no momento.</p>
+            @endforelse
         </div>
 
         <!-- Load More Button -->
@@ -316,7 +318,7 @@
 
                         <!-- Botões de Ação -->
                         <div class="space-y-3 pt-4">
-                            <button onclick="addToCart()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg">
+                            <button onclick="submitAddToCart()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
@@ -336,7 +338,7 @@
                             <div class="flex items-start gap-3">
                                 <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m-1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
                                 <div>
@@ -350,111 +352,125 @@
             </div>
         </div>
     </div>
-<style>
-    @keyframes fade-in {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .animate-fade-in {
+            animation: fade-in 1s ease-out;
         }
-    }
 
-    .animate-fade-in {
-        animation: fade-in 1s ease-out;
-    }
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-    .line-clamp-1 {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-</style>
-</div>
 
-<script>
-    let currentProductId = null;
-    let currentProductPrice = 0;
 
-    function openModal(id, name, image, description, price) {
-        currentProductId = id;
-        currentProductPrice = price;
+    @push('scripts')
+    <script>
+        let currentProductId = null;
 
-        document.getElementById('modalTitle').textContent = name;
-        document.getElementById('modalDescription').textContent = description;
-        document.getElementById('modalPrice').textContent = price.toFixed(2) + ' MT';
+        function openModal(id, name, image, description, price) {
+            currentProductId = id;
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalDescription').textContent = description || 'Sem descrição disponível';
+            document.getElementById('modalPrice').textContent = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'MZN'
+            }).format(price);
 
-        const modalImage = document.getElementById('modalImage');
-        if (image) {
-            modalImage.src = image;
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = image || 'https://via.placeholder.com/400x400';
             modalImage.alt = name;
-        } else {
-            modalImage.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="48" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ESem Imagem%3C/text%3E%3C/svg%3E';
+
+            document.getElementById('quantity').value = 1;
+            document.getElementById('productModal').classList.remove('hidden');
+            document.getElementById('productModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
         }
 
-        document.getElementById('quantity').value = 1;
-        document.getElementById('productModal').classList.remove('hidden');
-        document.getElementById('productModal').classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        document.getElementById('productModal').classList.add('hidden');
-        document.getElementById('productModal').classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }
-
-    function increaseQuantity() {
-        const input = document.getElementById('quantity');
-        const currentValue = parseInt(input.value);
-        if (currentValue < 99) {
-            input.value = currentValue + 1;
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            document.getElementById('productModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
         }
-    }
 
-    function decreaseQuantity() {
-        const input = document.getElementById('quantity');
-        const currentValue = parseInt(input.value);
-        if (currentValue > 1) {
-            input.value = currentValue - 1;
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+            const currentValue = parseInt(input.value) || 1;
+            input.value = Math.min(currentValue + 1, 99);
         }
-    }
 
-    function addToCart() {
-        const quantity = parseInt(document.getElementById('quantity').value);
-        const productName = document.getElementById('modalTitle').textContent;
-        const total = (currentProductPrice * quantity).toFixed(2);
-
-        // Aqui você pode adicionar a lógica real de adicionar ao carrinho
-        // Por exemplo, fazer uma requisição AJAX para o backend
-
-        alert(`✅ Produto adicionado ao carrinho!\n\nProduto: ${productName}\nQuantidade: ${quantity}\nTotal: ${total} MT`);
-
-        closeModal();
-    }
-
-    // Fechar modal ao clicar fora dele
-    document.getElementById('productModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+            const currentValue = parseInt(input.value) || 1;
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
         }
-    });
 
-    // Fechar modal com tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeModal();
+        function submitAddToCart() {
+            console.log('Enviando para servidor...');
+            const qty = parseInt(document.getElementById('quantity').value) || 1;
+
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    product_id: currentProductId,
+                    quantity: qty
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta:', data);
+                if (data.success) {
+                    alert(data.message);
+                    closeModal();
+                    location.reload(); // Atualizar página
+                } else {
+                    alert('Erro: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar ao carrinho');
+            });
         }
-    });
-</script>
+
+        document.getElementById('productModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+    @endpush
+
+</div>
