@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Livewire\Admin\Products;
 use App\Livewire\Store\Homepage;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,5 +94,10 @@ Route::middleware(['auth','role:client'])->prefix('client')->name('client.')->gr
     Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
     // outras rotas exclusivas de client...
 })->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+});
 
 require __DIR__.'/auth.php';

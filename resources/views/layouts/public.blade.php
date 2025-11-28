@@ -89,7 +89,7 @@
                             </svg>
                         </div>
                         <span class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-                            MozShop
+                            SSP do grupo Macro
                         </span>
                     </a>
                 </div>
@@ -241,7 +241,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                         </div>
-                        <span class="text-xl font-bold text-white">MozShop</span>
+                        <span class="text-xl font-bold text-white">Sistema de Simulação de pagamento</span>
                     </div>
                     <p class="text-sm leading-relaxed mb-4">
                         Sua loja online de confiança em Moçambique. Oferecemos os melhores produtos com qualidade garantida.
@@ -298,19 +298,19 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span>Av. Julius Nyerere, 1234<br>Maputo, Moçambique</span>
+                            <span>Prédio Progresso 4º andar, Av 24 de Julho e Av. Olof Palme</span>
                         </li>
                         <li class="flex items-center gap-2 text-sm">
                             <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
-                            <span>+258 84 123 4567</span>
+                            <span>+258 86 445 5056</span>
                         </li>
                         <li class="flex items-center gap-2 text-sm">
                             <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <span>contato@mozshop.co.mz</span>
+                            <span>recrutamento@grupomacro.co.mz</span>
                         </li>
                     </ul>
                 </div>
@@ -319,21 +319,22 @@
             <!-- Bottom Bar -->
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                 <p class="text-sm text-gray-400">
-                    © {{ date('Y') }} MozShop. Todos os direitos reservados.
+                    © {{ date('Y') }} Sistema de Simulação de pagamento. Todos os direitos reservados.
                 </p>
                 <div class="flex items-center gap-4">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" class="h-8 opacity-70">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-8 opacity-70">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="AmEx" class="h-8 opacity-70">
+                    <img src="{{ asset('m-pesa.png') }}" alt="M-Pesa" class="h-9 opacity-70">
+                    <img src="{{ asset('emola.png') }}" alt="E-mola" class="h-10 opacity-70">
                 </div>
             </div>
         </div>
     </footer>
 
+    <livewire:cart-modal />
+
     <!-- Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    {{-- Livewire scripts --}}
     @livewireScripts
 
     @stack('scripts')

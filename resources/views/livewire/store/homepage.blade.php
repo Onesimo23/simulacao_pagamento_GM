@@ -6,7 +6,7 @@
         <div class="relative max-w-7xl mx-auto px-6 py-16 sm:py-24">
             <div class="text-center space-y-6">
                 <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight animate-fade-in">
-                    Bem-vindo à Nossa Loja
+                    Bem-vindo ao sistema de simulação de pagamentos
                 </h1>
                 <p class="text-xl sm:text-2xl text-indigo-100 max-w-3xl mx-auto">
                     Descubra os melhores produtos ao melhor preço. Qualidade e confiança em cada compra.

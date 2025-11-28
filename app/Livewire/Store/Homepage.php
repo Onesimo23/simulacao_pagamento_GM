@@ -59,7 +59,8 @@ class Homepage extends Component {
             \Log::info('Produto adicionado com sucesso', ['user_id' => $user->id, 'product_id' => $productId]);
 
             $this->dispatch('closeModal');
-            $this->dispatch('cartUpdated');
+            // Disparar evento para atualizar o modal
+            $this->dispatch('cartUpdated')->to('cart-modal');
             $this->js("alert('$message')");
 
         } catch (\Exception $e) {

@@ -1,3 +1,2 @@
 
-    <livewire:cart />
-
+ <livewire:cart />

@@ -2,31 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
-{   
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $cart = session()->get('cart', []);
+        $cartItems = CartItem::where('user_id', auth()->id())
+            ->with('product')
+            ->get();
 
-        if (empty($cart)) {
-            return redirect()->route('products.index')->with('error', 'O carrinho está vazio.');
+        if ($cartItems->isEmpty()) {
+            return redirect('/')->with('warning', 'Seu carrinho está vazio!');
         }
 
-        $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
+        $total = $cartItems->sum(function ($item) {
+            return $item->price * $item->quantity;
+        });
 
-        return view('checkout.index', compact('cart', 'total'));
+        return view('checkout.index', [
+            'cartItems' => $cartItems,
+            'total' => $total
+        ]);
     }
 
-    public function process(Request $request)
+    public function store(Request $request)
     {
-        return redirect()->back()->with('error', 'Lógica de simulação pendente.');
-    }
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'payment_method' => 'required|in:credit_card,debit_card,pix,bank_transfer',
+        ]);
 
-    public function confirmation(Order $order)
-    {
-        return view('checkout.confirmation', compact('order'));
+        try {
+
+            CartItem::where('user_id', auth()->id())->delete();
+
+            return redirect('/')->with('success', 'Compra realizada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erro ao processar a compra: ' . $e->getMessage());
+        }
     }
 }
