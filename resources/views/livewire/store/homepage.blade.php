@@ -450,7 +450,7 @@
                 if (data.success) {
                     alert(data.message);
                     closeModal();
-                    location.reload(); // Atualizar página
+                    location.reload(); 
                 } else {
                     alert('Erro: ' + data.message);
                 }

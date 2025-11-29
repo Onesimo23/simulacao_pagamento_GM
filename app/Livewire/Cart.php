@@ -16,7 +16,6 @@ class Cart extends Component {
 
     public function add($productId) {
         $product = Product::findOrFail($productId);
-
         $cart = session()->get('cart', []);
 
         if (isset($cart[$productId])) {
@@ -31,10 +30,7 @@ class Cart extends Component {
         }
 
         session()->put('cart', $cart);
-
         $this->cart = $cart;
-
-        // atualiza o header
         $this->emit('cartUpdated');
     }
 

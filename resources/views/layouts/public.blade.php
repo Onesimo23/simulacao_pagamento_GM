@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'E-commerce') }} - @yield('title', 'Loja Online')</title>
+    <title>@yield('title', 'Sistema de simulação de pagamentos')</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     <script defer src="//unpkg.com/alpinejs"></script>
@@ -16,13 +16,14 @@
 
     {{-- Livewire styles --}}
     @livewireStyles
+    <tallstackui:script />
+    @livewireStyles
 
     @stack('styles')
 </head>
 
 <body class="font-sans antialiased bg-gray-50" x-data="{ showNotification: false, notificationType: 'success', notificationMessage: '' }">
 
-    <!-- Notificação simples -->
     <div x-show="showNotification"
         x-transition:enter="transition ease-out duration-300"
         x-transition:leave="transition ease-in duration-300"
@@ -50,9 +51,8 @@
         </div>
     </div>
 
-    <!-- Header/Navbar -->
     <header class="sticky top-0 z-40 bg-white shadow-md">
-        <!-- Top Bar -->
+
         <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-10 text-sm">
@@ -67,7 +67,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            contato@loja.com
+                            recrutamento@grupomacro.co.mz
                         </span>
                     </div>
                     <div class="flex items-center gap-4">
@@ -77,10 +77,8 @@
             </div>
         </div>
 
-        <!-- Main Navbar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="" class="flex items-center gap-2">
                         <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -94,7 +92,6 @@
                     </a>
                 </div>
 
-                <!-- Search Bar -->
                 <div class="hidden lg:flex flex-1 max-w-2xl mx-8">
                     <form class="w-full" action="" method="GET">
                         <div class="relative">
@@ -111,9 +108,7 @@
                     </form>
                 </div>
 
-                <!-- Right Menu -->
                 <div class="flex items-center gap-4">
-                    <!-- Mobile Search Toggle -->
                     <button class="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition">
                         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -121,7 +116,6 @@
                     </button>
 
                     @auth
-                    <!-- User Menu (Logado) -->
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition">
                             <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
@@ -133,7 +127,6 @@
                             </svg>
                         </button>
 
-                        <!-- Dropdown -->
                         <div x-show="open"
                             @click.away="open = false"
                             x-transition
