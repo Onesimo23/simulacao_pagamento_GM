@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout - TV Sucesso')
+@section('title', 'Checkout - Grupo MAcro')
 
 @section('content')
 <div class="min-h-screen bg-gray-50 py-12">
@@ -96,9 +96,7 @@
                         <!-- Campo para Visa Card -->
                         <div id="visaCardField" class="hidden p-4 bg-purple-50 rounded-lg border border-purple-200">
                             <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm12 4v4a2 2 0 002-2v-4a2 2 0 00-2 2zm0 0V6a2 2 0 012 2v4a2 2 0 01-2 2z" />
-                                </svg>
+                                
                                 Dados do Cartão
                             </h3>
 
@@ -121,7 +119,7 @@
 
                                 <div>
                                     <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">Titular do Cartão</label>
-                                    <input type="text" id="card_holder" name="card_holder" placeholder="JOÃO SILVA" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <input type="text" id="card_holder" name="card_holder" placeholder="JOSÉ ONÉSIMO ABEL NUVUNGA" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 </div>
 
                                 <p class="text-xs text-purple-700 bg-purple-100 p-2 rounded">

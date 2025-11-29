@@ -5,12 +5,10 @@
 @section('content')
 <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
     <div class="w-full max-w-md">
-        <!-- Main Card -->
         <div class="bg-white p-8 rounded-lg shadow-lg text-center mb-6">
 
             <h2 class="text-2xl font-bold mb-6 text-gray-900">Processando Pagamento</h2>
 
-            <!-- Transaction Details -->
             <div class="bg-gray-50 rounded-lg p-6 mb-6 space-y-4">
                 <div class="border-b border-gray-200 pb-4">
                     <p class="text-gray-600 text-sm mb-1">Método de Pagamento</p>
@@ -44,9 +42,7 @@
                 </div>
             </div>
 
-            <!-- Payment Method Specific Info -->
             @if($transaction->payment_method === 'm_pesa' || $transaction->payment_method === 'e_mola')
-                <!-- Mobile Money Info -->
                 <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded mb-6 text-left">
                     <h3 class="font-bold text-blue-900 mb-3 flex items-center gap-2">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

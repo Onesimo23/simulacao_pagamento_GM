@@ -15,7 +15,7 @@
         @if($transactions->count() > 0)
             <!-- Desktop Table -->
             <div class="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
-                <table class="w-full">
+                <table id="transactionsTable" class="w-full">
                     <thead class="bg-gradient-to-r from-gray-100 to-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-6 py-4 text-left text-sm font-bold text-gray-700">ID</th>
@@ -175,6 +175,15 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#transactionsTable').DataTable({
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json"
+            },
+            paging: false 
+        });
+    });
+
     function openDetails(transactionId) {
         fetch(`/payment/status/${transactionId}`)
             .then(response => response.json())
