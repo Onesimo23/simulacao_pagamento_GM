@@ -7,7 +7,8 @@ use App\Http\Controllers\Client\ClientDashboardController;
 use App\Livewire\Admin\Products;
 use App\Livewire\Store\Homepage;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +72,7 @@ Route::middleware('auth')->get('/dashboard', function () {
     $user = auth()->user();
     if (! $user) {
         return redirect('/');
+
     }
     return $user->role === 'admin'
         ? redirect()->route('admin.dashboard')
@@ -81,6 +83,11 @@ Route::middleware('auth')->get('/dashboard', function () {
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+// Rota de Logout
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
 // rotas admin
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -98,6 +105,16 @@ Route::middleware(['auth','role:client'])->prefix('client')->name('client.')->gr
 Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    Route::get('/payment/simulate/{id}', [PaymentController::class, 'simulate'])->name('payment.simulate');
+    Route::get('/payment/confirm/{id}', [PaymentController::class, 'confirm'])->name('payment.confirm');
+    Route::post('/payment/cancel/{id}', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::get('/payment/status/{id}', [PaymentController::class, 'getStatus'])->name('payment.getStatus');
+
+    Route::get('/transactions', function () {
+        $transactions = \App\Models\Transaction::where('user_id', auth()->id())->latest()->paginate(10);
+        return view('transactions.index', compact('transactions'));
+    })->name('transactions.index');
 });
 
 require __DIR__.'/auth.php';
